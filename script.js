@@ -139,27 +139,36 @@ function endGame(winner){
 }
 
 
-function resetGame(){
-    let humanGuessCount = 0;
-    let aiGuessCount = 0;
-    let previousGuesses = [];
-
-    let aiLowerBound = 1;
-    let aiUpperBound = 100;
+function resetGame() {
+    humanGuessCount = 0;
+    aiGuessCount = 0;
+    previousGuesses = [];
+    aiLowerBound = 1;
+    aiUpperBound = 100;
 
     guessField.disabled = false;
     guessSubmit.disabled = false;
     guessField.value = '';
     guessField.focus();
 
-    guesses.innerHTML = '';
+    guesses.innerHTML = ''; // Clear previous guesses
 
-    document.querySelector('.gameOvermsg').remove();
-    document.querySelector('.reset-btn').remove();
-    currentPlayer.innerHTML = 'Human'
-    remaining.innerHTML = `${5}`;
+    const gameOverMsg = document.querySelector('.gameOvermsg');
+    const resetButton = document.querySelector('.reset-btn');
+
+    if (gameOverMsg) {
+        gameOverMsg.remove();
+    }
+    if (resetButton) {
+        resetButton.remove();
+    }
+
+
+    currentPlayer.innerHTML = 'Human';
+    remaining.innerHTML = '5';
+
     randomNum = Math.floor(Math.random() * 100) + 1;
-     
+    console.log(randomNum); // Log the new random number for debugging
 }
 
 
