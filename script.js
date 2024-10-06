@@ -5,6 +5,8 @@ const guessSubmit = document.querySelector("#sbmt");
 const currentPlayer = document.querySelector("#currentPlayer");
 const guesses = document.querySelector("#guesses");
 const remaining = document.querySelector("#remaining");
+const gameOverMsg = document.querySelector(".gameOvermsg");
+const resetbtn = document.querySelector(".reset-btn");
 
 console.log(randomNum);
 
@@ -19,6 +21,8 @@ let aiUpperBound = 100;
 
 //main function to check guesses of human and ai
 function checkGuess(guess, player){
+    console.log("before", humanGuessCount);
+    console.log("before", aiGuessCount);
     //update count
     if(player === 'Human'){
         humanGuessCount ++;
@@ -26,6 +30,8 @@ function checkGuess(guess, player){
     else{
         aiGuessCount ++;
     }
+    console.log("after", humanGuessCount);
+    console.log("after", aiGuessCount);
 
     //check guess
     let result;
@@ -52,11 +58,12 @@ function checkGuess(guess, player){
     updateGuessesDisplay()
 
     // display remaining
-    let remainingTry = 5 - Math.max(humanGuessCount, aiGuessCount)
-    remaining.innerHTML = `${remainingTry}`;
+    remaining.textContent = `${5 - humanGuessCount}`
 
     // check for draw
-    if(humanGuessCount === 5 && aiGuessCount === 5 && guess != randomNum){
+    console.log("after vdshsv", humanGuessCount);
+    console.log("after vdshsv", aiGuessCount);
+    if(humanGuessCount === 5 || aiGuessCount === 5){
         endGame('Draw')
     }
     
@@ -78,10 +85,10 @@ function handleHumanGuess(){
     guessField.value = "";
     if(previousGuesses[previousGuesses.length -1].result !== 'Correct!'){
         currentPlayer.innerHTML = 'Computer'
-        guessField.disabled = true;
-        guessSubmit.disabled =true;
+        guessField.setAttribute('disabled','');
+        guessSubmit.setAttribute('disabled','');
 
-        setTimeout(handleAiGuess, 1000);
+        setTimeout(handleAiGuess, 10);
 
     }
 }
@@ -91,7 +98,7 @@ guessField.addEventListener('keydown', function(e){
       handleHumanGuess();
     }
 })
-ai
+
 // AI guesses number and check
 function handleAiGuess(){
     let aiGuess = Math.floor((aiLowerBound + aiUpperBound)/2);
@@ -100,8 +107,8 @@ function handleAiGuess(){
 
     if(previousGuesses[previousGuesses.length -1].result !== 'Correct!'){
         currentPlayer.innerHTML = 'Human'
-        guessField.disabled = false;
-        guessSubmit.disabled = false;
+        guessField.removeAttribute('disabled');
+        guessSubmit.removeAttribute('disabled');
         guessField.focus();
 
     }
@@ -120,22 +127,15 @@ function updateGuessesDisplay() {
 
 
 function endGame(winner){
-    guessField.disabled = true;
-    guessSubmit.disabled = true;
+    guessField.setAttribute('disabled','');
+    guessSubmit.setAttribute('disabled','');
 
-    let message = winner === "Draw" ? "It's a draw! " : `${winner} wins! `;
-    message += `The number was ${randomNum}.`;
+    let message = winner === "Draw" ? "It's a draw! " : `${winner} wins! The number was ${randomNum}.`;
 
-    const gameOverMsg = document.createElement('p');
     gameOverMsg.textContent = message;
-    gameOverMsg.classList.add("gameOvermsg");
-    document.querySelector(".container").appendChild(gameOverMsg);
+    resetbtn.style.display = 'block';
+    resetbtn.addEventListener("click", resetGame);
 
-    resetButton = document.createElement("button");
-    resetButton.textContent = "Start new game";
-    resetButton.classList.add("reset-btn");
-    document.querySelector(".container").appendChild(resetButton);
-    resetButton.addEventListener("click", resetGame);
 }
 
 
@@ -146,27 +146,26 @@ function resetGame() {
     aiLowerBound = 1;
     aiUpperBound = 100;
 
-    guessField.disabled = false;
-    guessSubmit.disabled = false;
+    // Enable input fields again
+    guessField.removeAttribute('disabled');
+    guessSubmit.removeAttribute('disabled');
     guessField.value = '';
     guessField.focus();
 
-    guesses.innerHTML = ''; // Clear previous guesses
+    // Clear previous guesses display
+    guesses.innerHTML = ''; 
 
-    const gameOverMsg = document.querySelector('.gameOvermsg');
-    const resetButton = document.querySelector('.reset-btn');
-
-    if (gameOverMsg) {
-        gameOverMsg.remove();
-    }
-    if (resetButton) {
-        resetButton.remove();
-    }
+    // Remove the game over message and reset button
+    gameOverMsg.textContent =''
+    resetbtn.style.display = 'none';
 
 
+
+    // Reset UI to initial state
     currentPlayer.innerHTML = 'Human';
-    remaining.innerHTML = '5';
+    remaining.innerHTML = '5';  // Reset remaining guesses
 
+    // Generate a new random number for the new game
     randomNum = Math.floor(Math.random() * 100) + 1;
     console.log(randomNum); // Log the new random number for debugging
 }
