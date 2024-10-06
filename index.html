@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number: Human vs AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Guess the Number: Human vs AI</h1>
+        <p>I'm thinking of a number between 1 and 100. Take turns guessing with the AI!</p>
+        
+        <div class="input-group">
+            <input type="number" id="guessField" placeholder="Enter your guess" min="1" max="100">
+            <button id="sbmt">Guess</button>
+        </div>
+
+        <p class="current-turn">Current Turn: <span id="currentPlayer">Human</span></p>
+
+        <h3>Previous Guesses</h3>
+        <div id="guesses"></div>
+
+        <p class="remaining-guesses">Remaining Guesses: <span id="remaining">5</span> each</p>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
