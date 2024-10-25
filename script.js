@@ -8,7 +8,6 @@ const remaining = document.querySelector("#remaining");
 const gameOverMsg = document.querySelector(".gameOvermsg");
 const resetbtn = document.querySelector(".reset-btn");
 
-console.log(randomNum);
 
 let humanGuessCount = 0;
 let aiGuessCount = 0;
