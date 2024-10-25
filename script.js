@@ -128,7 +128,7 @@ function updateGuessesDisplay() {
 function endGame(winner) {
     isGameOver=true;
     // Display the game result message
-    let message = winner === "Draw" ? "It's a draw! " : `${winner} wins! The number was ${randomNum}.`;
+    let message = winner === "Draw" ? `It's a draw! The number was ${randomNum}.` : `${winner} wins! The number was ${randomNum}.`;
     gameOverMsg.textContent = message;
 
     // Disable inputs and show the reset button
